@@ -1,0 +1,27 @@
+# pyproject.toml
+
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "micropython-stepper"
+version = "1.0.2"
+description = "Library to use stepper drivers in micropython in a tidy way"
+readme = "README.md"
+authors = [{ name = "redoxcode", email = "redoxcode@github.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: Implementation :: MicroPython"
+]
+keywords = ["stepper","motor"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = []
+
+[project.urls]
+Homepage = "https://github.com/redoxcode/micropython-stepper"
+
+
