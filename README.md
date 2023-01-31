@@ -1,4 +1,4 @@
-[![pypi version shield](https://img.shields.io/pypi/v/micropython-stepper)](https://pypi.org/project/micropython-stepper/) [![pypi downloads per month shield](https://img.shields.io/pypi/dm/micropython-servo?color=brightgreen)](https://pypi.org/project/micropython-stepper/)
+[![pypi version shield](https://img.shields.io/pypi/v/micropython-stepper)](https://pypi.org/project/micropython-stepper/) [![pypi downloads per month shield](https://img.shields.io/pypi/dm/micropython-stepper?color=brightgreen)](https://pypi.org/project/micropython-stepper/)
 ## Description
 A micropython library to use stepper motors in a tidy way.
 
