@@ -132,5 +132,5 @@ s2 = Stepper(20,dir_pin,steps_per_rev=200,speed_sps=50)
 - enable or disable the stepper driver using the enable pin. While this stops the movement of the actual hardware, the Stepper class will still act as if the stepper is moving. This can be used for testing. Recalibration of the absolute position might be needed if the stepper was disabled.
 -e: True or False
 
-```is_enabled```
+```is_enabled()```
 - returns the last status (True or False) of the enable(e) function
