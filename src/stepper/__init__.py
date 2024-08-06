@@ -56,7 +56,7 @@ class Stepper:
         return self.get_pos()*(2.0*math.pi)/self.steps_per_rev
     
     def overwrite_pos(self,p):
-        self.pos = 0
+        self.pos = p
     
     def overwrite_pos_deg(self,deg):
         self.overwrite_pos(deg*self.steps_per_rev/360.0)
