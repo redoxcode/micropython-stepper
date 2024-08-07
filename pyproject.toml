@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "micropython-stepper"
-version = "1.0.3"
+version = "1.0.4"
 description = "Library to use stepper drivers in micropython in a tidy way"
 readme = "README.md"
 authors = [{ name = "redoxcode", email = "redoxcode@github.com" }]
