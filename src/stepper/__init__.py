@@ -1,9 +1,18 @@
 import machine
 import math
-import time
+import uasyncio as asyncio
 
 class Stepper:
-    def __init__(self,step_pin,dir_pin,en_pin=None,steps_per_rev=200,speed_sps=10,invert_dir=False,timer_id=-1):
+    def __init__(self,step_pin,dir_pin,en_pin=None,steps_per_rev=200,speed_sps=10,invert_dir=False,timer_id=-1, get_pos_from_encoder=None):
+        """
+        Params:
+            get_pos_from_encoder: 
+                - It's a function provided by the encoder, this function must return the current position in steps.
+                - In the case of the AS5600 encoder, it has a resolution of 4096 steps per revolution and a NEMA17 motor can be 
+                configured to 3200 steps per rev, so get_pos_from_encoder() function must map ththe AS5600 resolution to the current
+                step motor resolution.
+                - In this link I have an example of a encoder library: https://gitlab.com/chaliuz_public/as5600#
+        """
         
         if not isinstance(step_pin, machine.Pin):
             step_pin=machine.Pin(step_pin,machine.Pin.OUT)
@@ -22,10 +31,26 @@ class Stepper:
         self.free_run_mode=0
         self.enabled=True
         
-        self.target_pos = 0
-        self.pos = 0
         self.steps_per_sec = speed_sps
         self.steps_per_rev = steps_per_rev
+
+        if get_pos_from_encoder == None:
+            """
+            If the motor isn't using a encoder
+            """
+            self.pos = 0
+            self.target_pos = 0
+        else: 
+            self.get_pos_from_encoder = get_pos_from_encoder
+            steps = self.get_pos_from_encoder()
+
+            if steps is not None:
+                self.pos = steps
+                self.target_pos = self.pos
+            else:
+                self.pos = 0
+                self.target_pos = 0
+
         
         self.track_target()
         
@@ -37,11 +62,12 @@ class Stepper:
     def speed_rps(self,rps):
         self.speed(rps*self.steps_per_rev)
 
-    def target(self,t):
-        self.target_pos = t
+    def target(self,steps):
+        self.target_pos = steps
 
     def target_deg(self,deg):
-        self.target(self.steps_per_rev*deg/360.0)
+        steps = int(self.steps_per_rev*deg/360.0)
+        self.target(steps)
     
     def target_rad(self,rad):
         self.target(self.steps_per_rev*rad/(2.0*math.pi))
@@ -70,15 +96,26 @@ class Stepper:
                 self.dir_value_func(1^self.invert_dir)
                 self.step_value_func(1)
                 self.step_value_func(0)
-            self.pos+=1
+
+            steps = self.get_pos_from_encoder()
+            if steps is not None:
+                self.pos = steps # it converts the current stepmotor steps
+            else:
+                self.pos+=1
         elif d<0:
             if self.enabled:
                 self.dir_value_func(0^self.invert_dir)
                 self.step_value_func(1)
                 self.step_value_func(0)
-            self.pos-=1
+
+            steps = self.get_pos_from_encoder()
+            if steps is not None:
+                self.pos = steps
+            else:
+                self.pos-=1
 
     def _timer_callback(self,t):
+        # print(f"self.target_pos: {self.target_pos} | self.pos: {self.pos}") 
         if self.free_run_mode>0:
             self.step(1)
         elif self.free_run_mode<0:
