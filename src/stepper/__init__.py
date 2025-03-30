@@ -3,7 +3,7 @@ import math
 import time
 
 class Stepper:
-    def __init__(self,step_pin,dir_pin,en_pin=None,steps_per_rev=200,speed_sps=10,invert_dir=False,timer_id=-1):
+    def __init__(self, step_pin, dir_pin, en_pin=None, steps_per_rev=200, speed_sps=10, invert_dir=False, invert_enable=False, timer_id=-1):
         
         if not isinstance(step_pin, machine.Pin):
             step_pin=machine.Pin(step_pin,machine.Pin.OUT)
@@ -16,6 +16,7 @@ class Stepper:
         self.dir_value_func = dir_pin.value
         self.en_pin = en_pin
         self.invert_dir = invert_dir
+        self.invert_enable = invert_enable
 
         self.timer = machine.Timer(timer_id)
         self.timer_is_running=False
@@ -113,9 +114,10 @@ class Stepper:
         self.dir_value_func(0)
 
     def enable(self,e):
+        self.enabled = e
         if self.en_pin:
-            self.en_pin.value(e)
-        self.enabled=e
+            pin_state = bool(e) ^ self.invert_enable
+            self.en_pin.value(pin_state)
         if not e:
             self.dir_value_func(0)
     
