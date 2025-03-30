@@ -66,13 +66,14 @@ s2 = Stepper(20,dir_pin,steps_per_rev=200,speed_sps=50)
 ```
 
 ## API
-### class Stepper(step_pin,dir_pin,en_pin=None,steps_per_rev=200,speed_sps=10,invert_dir=False,timer_id=-1)
+### class Stepper(step_pin,dir_pin,en_pin=None,steps_per_rev=200,speed_sps=10,invert_dir=False,invert_enable=False,timer_id=-1)
 - step_pin: Pin id or machine.Pin object for the pin connected to the step input of the stepper driver
 - dir_pin: Pin id or machine.Pin object for the pin connected to the direction select input of the stepper driver
 - en_pin: (Optional) None or pin id or machine.Pin object for the pin connected to the enable input of the stepper driver
 - steps_per_rev: Amount of stepper steps that would result in a 360° rotation
 - speed_sps: Speed in steps per secound (= step frequency in Hz)
 - invert_dir: True if the direction of the stepper should be inverted
+- invert_enable: True if the stepper driver needs an inverted enable signal
 - timer_id: Id of the timer that should be used. On most boards -1 will construct a new virtual timer (https://docs.micropython.org/en/latest/library/machine.Timer.html)
 
 
