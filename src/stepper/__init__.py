@@ -42,10 +42,10 @@ class Stepper:
         self.target_pos = t
 
     def target_deg(self,deg):
-        self.target(self.steps_per_rev*deg/360.0)
+        self.target(round(self.steps_per_rev*deg/360.0))
     
     def target_rad(self,rad):
-        self.target(self.steps_per_rev*rad/(2.0*math.pi))
+        self.target(round(self.steps_per_rev*rad/(2.0*math.pi)))
     
     def get_pos(self):
         return self.pos
