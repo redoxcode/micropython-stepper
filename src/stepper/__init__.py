@@ -25,6 +25,7 @@ class Stepper:
         
         self.target_pos = 0
         self.pos = 0
+        self.target_reached = True  # flag used for movement indication
         self.steps_per_sec = speed_sps
         self.steps_per_rev = steps_per_rev
         
@@ -39,6 +40,7 @@ class Stepper:
         self.speed(rps*self.steps_per_rev)
 
     def target(self,t):
+        self.target_reached = False
         self.target_pos = t
 
     def target_deg(self,deg):
@@ -88,6 +90,8 @@ class Stepper:
             self.step(1)
         elif self.target_pos<self.pos:
             self.step(-1)
+        else:
+            self.target_reached = True
     
     def free_run(self,d):
         self.free_run_mode=d
@@ -123,3 +127,6 @@ class Stepper:
     
     def is_enabled(self):
         return self.enabled
+    
+    def is_target_reached(self):
+        return self.target_reached
