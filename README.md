@@ -138,3 +138,6 @@ s2 = Stepper(20,dir_pin,steps_per_rev=200,speed_sps=50)
 
 ```is_enabled()```
 - returns the last status (True or False) of the enable(e) function
+
+```is_target_reached()```
+- returns if the target position is reached (True or False)
