@@ -10,6 +10,16 @@ The steppers can be controlled by angle if the number of steps per rotation is s
 
 Multiple steppers can share a common dir pin, allowing for N steppers controlled by N+1 output pins.
 
+## Install
+Place the library in the **lib** folder of your device (create the folder if it doesn't exist yet).
+
+It should look like this:
+
+- **lib**
+   - **stepper**
+      - **\_\_init\_\_.py**
+      - **\_\_main\_\_.py**
+
 ## Examples
 ### Two steppers
 ```Python
